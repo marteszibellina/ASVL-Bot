@@ -32,22 +32,33 @@ def start_message(message):
     btn2 = types.KeyboardButton("Все занятия")
     btn3 = types.KeyboardButton("Контакты")
     markup.add(btn1, btn2, btn3)
+    if message.chat.id in user_data and user_data[message.chat.id] == "Dmitry Sobolev":
+        btn4 = types.KeyboardButton("Добавить пользователя")
+        btn5 = types.KeyboardButton("Удалить пользователя")
+        markup.add(btn4, btn5)
     bot.send_message(message.chat.id, "Выбери интересующую тебя опцию", reply_markup=markup)
 
 
 @bot.message_handler(content_types=['text'])
 def text(message):
-    if message.chat.id in user_data and user_data[message.chat.id] == "admin":
-        # Admin commands
-        if message.text == "/add_user" :
+    if message.chat.id in user_data and user_data[message.chat.id] == "Dmitry Sobolev":
+        if message.text == "Добавить пользователя":
+            bot.send_message(message.chat.id, "Введите ID пользователя") # А зачем мне эта штука?
+            if message.text.isdigit():
+                if message.chat.id not in user_data:
+                    user_data[message.chat.id] = []
+                user_data[message.chat.id].append(message.text)
+                bot.send_message(message.chat.id, "Введите роль пользователя")
+                user_data[message.chat.id].append(message.text)
+            else:
+                bot.send_message(message.chat.id, "ID пользователя должен состоять только из цифр")
+        elif message.text == "Удалить пользователя":
             bot.send_message(message.chat.id, "Введите ID пользователя")
-            pass
-        elif message.text == "/remove_user" :
-            bot.send_message(message.chat.id, "Введите ID пользователя")
-            # Remove user command
-            pass
-        else :
-            bot.send_message(message.chat.id, "Неизвестная команда")
+            if message.text.isdigit() and message.chat.id in user_data and message.text in user_data[message.chat.id]:
+                user_data[message.chat.id].remove(message.text)
+                bot.send_message(message.chat.id, "Введите роль пользователя")
+            else:
+                bot.send_message(message.chat.id, "Неизвестная команда")
     if message.text == "Ближайшее занятие":
         bot.send_message(message.chat.id, f"Сегодня: \n{current_date} \n{current_weekday}")
         bot.send_message(message.chat.id, f"Занятие: {current_lesson(schedule_lessons, current_weekday)}")
@@ -55,7 +66,7 @@ def text(message):
         bot.send_message(message.chat.id, f"Все занятия в течение недели: {schedule_all}")
     elif message.text == "Контакты":
         bot.send_message(message.chat.id, "Контакты:"
-                                          "\nАрт-студия Виталия Лещенко"
+                                          "\nАрт-студия Виталия ��ещенко"
                                           "\nАдрес: г. Москва, Маломосковская ул., 16 стр. 6 (3 этаж)"
                                           "\nArtStudioVL@ASVL.ru"
                                           "\n+7(925)734-99-27")
