@@ -33,8 +33,8 @@ def start_message(message):
     btn3 = types.KeyboardButton("Контакты")
     markup.add(btn1, btn2, btn3)
     if message.chat.id in user_data and user_data[message.chat.id] == "Dmitry Sobolev":
-        btn4 = types.KeyboardButton("Добавить пользователя")
-        btn5 = types.KeyboardButton("Удалить пользователя")
+        btn4 = types.KeyboardButton("Добавить пользователя") # А зачем мне эта штука?
+        btn5 = types.KeyboardButton("Удалить пользователя") # А зачем мне эта штука?
         markup.add(btn4, btn5)
     bot.send_message(message.chat.id, "Выбери интересующую тебя опцию", reply_markup=markup)
 
@@ -66,10 +66,10 @@ def text(message):
         bot.send_message(message.chat.id, f"Все занятия в течение недели: {schedule_all}")
     elif message.text == "Контакты":
         bot.send_message(message.chat.id, "Контакты:"
-                                          "\nАрт-студия Виталия ��ещенко"
-                                          "\nАдрес: г. Москва, Маломосковская ул., 16 стр. 6 (3 этаж)"
-                                          "\nArtStudioVL@ASVL.ru"
-                                          "\n+7(925)734-99-27")
+                                          "\n🎨 Арт-студия Виталия Лещенко 🖌"
+                                          "\n🏤 Адрес: г. Москва, Маломосковская ул., 16 стр. 6 (3 этаж)"
+                                          "\n📨 ArtStudioVL@ASVL.ru"
+                                          "\n ☎️+7(925)734-99-27")
     else:
         bot.send_message(message.chat.id, "Неизвестная команда")
 
